@@ -1,0 +1,27 @@
+.todo-render-wrapper {
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 350px;
+}
+
+.todo-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    height: 40px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.457);
+}
+
+.todo-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+}
+
+.todo-finished{
+    text-decoration: line-through;
+    color: rgba(128, 128, 128, 0.63);
+}
