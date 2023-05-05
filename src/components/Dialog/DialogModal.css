@@ -1,0 +1,19 @@
+form{
+    display:flex;
+    flex-direction: column;
+    height: 280px;
+    justify-content: space-between;
+}
+
+.MuiDialog-paperWidthSm{
+    width: 450px;
+    min-height: 350px;
+}
+
+.MuiDialogTitle-root{
+    border-bottom: 1px solid rgba(128, 128, 128, 0.279);
+}
+
+.MuiDialogContent-root{
+    padding: 10px 24px!important;
+}
