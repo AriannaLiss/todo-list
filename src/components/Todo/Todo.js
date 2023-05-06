@@ -10,8 +10,7 @@ const initialFormData = {
     todoName: '',
     todoNote: '',
     isFinished: false,
-    id: '',
-    index: null
+    id: ''
 }
 
 const getIsFinishedTodosCount = (todos) => todos.reduce((acc, curr) => {
@@ -62,25 +61,21 @@ const Todo = () => {
 
         if (formData.isEdit) {
             const editedTodos = todos;
-            editedTodos.splice(formData.index, 1, {...formData, isEdit:false})
+            editedTodos.splice(getPositionById(formData.id), 1, {...formData, isEdit:false})
             setTodos(editedTodos)
         }else{
-            setTodos((prevState) => [...prevState, {...formData, id:uuidv4(), index: getNewIndex()}]);
+            setTodos((prevState) => [...prevState, {...formData, id:uuidv4()}]);
         }
         resetAll();
     }
 
-    const getNewIndex = () => {
-        return (todos && todos.length > 0) ? todos[todos.length-1].index + 1 : 0;
+    const getPositionById = (id) => {
+        return todos.findIndex((todo) => todo.id === id);
     }
 
-    const getPosition = (index) => {
-        return todos.findIndex((todo) => todo.index === index);
-    }
-
-    const handleMarkTodo = (isChecked, index) => {
+    const handleMarkTodo = (isChecked, id) => {
         const updatedTodos = todos.slice();
-        const position = getPosition(index);
+        const position = getPositionById(id);
         updatedTodos.splice(position, 1, {...todos[position], isFinished: isChecked});
         setTodos(updatedTodos);
     }
