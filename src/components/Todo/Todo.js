@@ -14,6 +14,26 @@ const initialFormData = {
     index: null
 }
 
+const getIsFinishedTodosCount = (todos) => todos.reduce((acc, curr) => {
+    acc.total = todos.length;
+
+    if (curr.isFinished){
+        acc.finished++;
+    }
+
+    return acc;
+}, {total: 0, finished: 0})
+
+const setFilterTab = (tab, todos) => {
+    if (tab === 0) {
+        return todos;
+    } else if (tab === 1) {
+        return todos.filter((todo) => !todo.isFinished)
+    } else if (tab === 2) {
+        return todos.filter((todo) => todo.isFinished)
+    }
+}
+
 const Todo = () => {
     const [tab, setTab] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +41,8 @@ const Todo = () => {
     const [todos, setTodos] = useState([]);
     const [formData, setFormData] = useState(initialFormData);
 
-    console.log('todos: ', todos);
+    const totalCount = getIsFinishedTodosCount(todos);
+    const sortedTodos = setFilterTab(tab, todos);
 
     const resetAll = () => {
         setIsOpen(false);
@@ -41,17 +62,26 @@ const Todo = () => {
 
         if (formData.isEdit) {
             const editedTodos = todos;
-            editedTodos.splice(formData.index, 1, {...formData, isEdit:false, index: null})
+            editedTodos.splice(formData.index, 1, {...formData, isEdit:false})
             setTodos(editedTodos)
         }else{
-            setTodos((prevState) => [...prevState, {...formData, id:uuidv4()}]);
+            setTodos((prevState) => [...prevState, {...formData, id:uuidv4(), index: getNewIndex()}]);
         }
         resetAll();
     }
 
+    const getNewIndex = () => {
+        return (todos && todos.length > 0) ? todos[todos.length-1].index + 1 : 0;
+    }
+
+    const getPosition = (index) => {
+        return todos.findIndex((todo) => todo.index === index);
+    }
+
     const handleMarkTodo = (isChecked, index) => {
         const updatedTodos = todos.slice();
-        updatedTodos.splice(formData.index, 1, {...todos[index], isFinished: isChecked});
+        const position = getPosition(index);
+        updatedTodos.splice(position, 1, {...todos[position], isFinished: isChecked});
         setTodos(updatedTodos);
     }
 
@@ -83,6 +113,7 @@ const Todo = () => {
                 handleRemoveTodo = {handleRemoveTodo}
                 handleCloseButton = {resetAll}
                 isOpenDisplayTodo = {isOpenDisplayTodo}
+                totalCount = {totalCount}
             />
 
             <TodoActions
@@ -91,7 +122,7 @@ const Todo = () => {
             />
 
             <TodoRender 
-                todos = {todos}
+                todos = {sortedTodos}
                 handleMarkTodo = {handleMarkTodo}
                 handleOpenTodo = {handleOpenTodo}
             />

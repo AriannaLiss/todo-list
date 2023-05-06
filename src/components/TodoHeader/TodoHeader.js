@@ -43,7 +43,8 @@ const TodoHeader = ({
     formData,
     handleCloseButton,
     handleEditTodo,
-    handleRemoveTodo
+    handleRemoveTodo,
+    totalCount
 }) => {
     const weekDay = moment().format('dddd');
     const date = moment().date();
@@ -51,10 +52,10 @@ const TodoHeader = ({
         <div className='todo-header'>
             <div style = {styles.wrapper}>
                 <div className="todos-count">
-                    <span style = {styles.finished}>2</span>
+                    <span style = {styles.finished}>{totalCount.finished}</span>
                     <div style={styles.total}>
                         <span>Tasks</span>
-                        <span>/10</span>
+                        <span>{`/ ${totalCount.total}`}</span>
                     </div>
                 </div>
 
@@ -85,7 +86,6 @@ const TodoHeader = ({
                 handleRemoveTodo={handleRemoveTodo}
             />
         </div>
-
     )
 }
 

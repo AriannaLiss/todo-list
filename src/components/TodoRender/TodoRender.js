@@ -8,7 +8,6 @@ import './TodoRender.css'
 const Todo = ({
     todo, 
     handleMarkTodo, 
-    index,
     handleOpenTodo
 }) => {
     const isFinishedTodo = todo.isFinished ? 'todo-finished' : undefined;
@@ -17,13 +16,13 @@ const Todo = ({
             <span>
                 <Checkbox 
                     icon={<RadioButtonUncheckedIcon />} 
-                    checkedIcon={<CheckCircleOutlineIcon />} 
-                    onClick={(e) => handleMarkTodo(e.target.checked, index)}
+                    checkedIcon={<CheckCircleOutlineIcon color='primary'/>} 
+                    onClick={(e) => handleMarkTodo(e.target.checked, todo.index)}
                     checked={todo.isFinished}
                 />
             </span>
 
-            <div className = "todo-item" onClick = {() => handleOpenTodo({...todo, index})}>
+            <div className = "todo-item" onClick = {() => handleOpenTodo(todo)}>
                 <span className = {isFinishedTodo}>{todo.todoName}</span>
                 <ArrowForwardIosIcon fontSize="small"/>
             </div>
@@ -34,12 +33,12 @@ const Todo = ({
 const TodoRender = ({todos, handleMarkTodo, handleOpenTodo}) => {
     return (
         <div className="todos-render-wrapper">
-            {todos.map((todo, index) => (
+            {todos.map((todo) => (
                 <Todo
                     key={todo.id}
                     todo={todo}
                     handleMarkTodo={handleMarkTodo}
-                    index={index}
+                    index={todo.index}
                     handleOpenTodo={handleOpenTodo}
                 />
             ))}

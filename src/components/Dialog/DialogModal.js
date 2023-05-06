@@ -15,7 +15,7 @@ const DialogModal = ({
 }) => {
     return (
         <Dialog open={isOpen} onClose={handleOpenDialog}>
-            <DialogTitle>Add new todo</DialogTitle>
+            <DialogTitle>{formData.isEdit ? 'Edit todo' : 'Add new todo'}</DialogTitle>
             <DialogContent>
                 <form onSubmit = {handleSetTodoOnSubmit}>
                     <TextField 
@@ -35,7 +35,7 @@ const DialogModal = ({
 
                     <DialogActions>
                         <Button onClick={handleOpenDialog} color="primary">Close</Button>
-                        <Button disabled={false} type="submit" color="primary">Add</Button>
+                        <Button disabled={!formData.todoName} type="submit" color="primary">{formData.isEdit ? 'Edit' : 'Add'}</Button>
                     </DialogActions>                
                 </form>
             </DialogContent>
